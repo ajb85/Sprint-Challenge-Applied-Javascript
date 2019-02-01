@@ -40,18 +40,20 @@ class Carousel {
 let carousel = document.querySelector(".carousel");
 new Carousel(carousel);
 
+// Two functions could be combined with conditions
 function animateRight(pic, nextPic) {
+  let width = pic.offsetWidth;
   TweenMax.set(nextPic, { display: "inline", right: "", left: "" }, 0);
 
   TweenMax.to(pic, 0.5, {
-    left: 1200,
+    left: width,
     ease: Linear.easeNone,
     onComplete: function() {
       TweenMax.set(pic, { display: "none", left: "" });
     }
   });
   TweenMax.from(nextPic, 0.5, {
-    right: 1200,
+    right: width,
     ease: Linear.easeNone,
     onComplete: function() {
       TweenMax.set(nextPic, { right: "" });
@@ -59,17 +61,18 @@ function animateRight(pic, nextPic) {
   });
 }
 function animateLeft(pic, nextPic) {
+  let width = pic.offsetWidth;
   TweenMax.set(nextPic, { display: "inline", right: "", left: "" }, 0);
 
   TweenMax.to(pic, 0.5, {
-    right: 1200,
+    right: width,
     ease: Linear.easeNone,
     onComplete: function() {
       TweenMax.set(pic, { display: "none", right: "" });
     }
   });
   TweenMax.from(nextPic, 0.5, {
-    left: 1200,
+    left: width,
     ease: Linear.easeNone,
     onComplete: function() {
       TweenMax.set(nextPic, { left: "" });
