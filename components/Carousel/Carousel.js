@@ -7,23 +7,76 @@ class Carousel {
     this.rightBtn = this.element.querySelector(".right-button");
     this.leftBtn.addEventListener("click", this.showPic.bind(this, -1));
     this.rightBtn.addEventListener("click", this.showPic.bind(this, 1));
-    this.showPic(0);
+    //this.showPic(0);
+    this.pics.forEach(pic => {
+      pic.style.display = "none";
+      pic.style.position = "relative";
+      pic.style.zIndex = -1;
+    });
+    this.pics[this.displayPic].style.display = "inline";
   }
   showPic(i) {
-    this.displayPic += i;
-    if (this.displayPic < 0) {
-      this.displayPic = this.pics.length - 1;
-    } else if (this.displayPic >= this.pics.length) {
-      this.displayPic = 0;
+    const pic = this.pics[this.displayPic];
+
+    let nextI = this.displayPic + i;
+    if (nextI >= this.pics.length) {
+      nextI = 0;
+    } else if (nextI < 0) {
+      nextI = this.pics.length - 1;
     }
-    this.pics.forEach(pic => (pic.style.display = "none"));
-    this.pics[this.displayPic].style.display = "block";
+
+    const nextPic = this.pics[nextI];
+    //let slide = new TimelineMax();
+    if (i > 0) {
+      animateRight(pic, nextPic);
+    } else {
+      animateLeft(pic, nextPic);
+    }
+    this.displayPic = nextI;
   }
 }
 
 let carousel = document.querySelector(".carousel");
 new Carousel(carousel);
 
+function animateRight(pic, nextPic) {
+  TweenMax.set(pic, { left: "500px", right: "" }, 0);
+  TweenMax.set(nextPic, { display: "inline", right: "1450px", left: "" }, 0);
+
+  TweenMax.to(pic, 0.5, {
+    left: 1450,
+    ease: Linear.easeNone,
+    onComplete: function() {
+      TweenMax.set(pic, { display: "none", left: "" });
+    }
+  });
+  TweenMax.to(nextPic, 0.5, {
+    right: 500,
+    ease: Linear.easeNone,
+    onComplete: function() {
+      TweenMax.set(nextPic, { right: "" });
+    }
+  });
+}
+function animateLeft(pic, nextPic) {
+  TweenMax.set(pic, { right: "500px" }, 0);
+  TweenMax.set(nextPic, { display: "inline", left: "1450px" }, 0);
+
+  TweenMax.to(pic, 0.5, {
+    right: 1450,
+    ease: Linear.easeNone,
+    onComplete: function() {
+      TweenMax.set(pic, { display: "none", right: "" });
+    }
+  });
+  TweenMax.to(nextPic, 0.5, {
+    left: 500,
+    ease: Linear.easeNone,
+    onComplete: function() {
+      TweenMax.set(nextPic, { left: "" });
+    }
+  });
+}
 /* If You've gotten this far, you're on your own! Although we will give you some hints:
     1. You will need to grab a reference to the carousel, and in it grab the laft and right buttons
     2. You will need to grab a reference to all of the images
