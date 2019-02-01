@@ -10,11 +10,12 @@ class Carousel {
     //this.showPic(0);
     this.pics.forEach(pic => {
       pic.style.display = "none";
-      pic.style.position = "relative";
+      pic.style.position = "absolute";
       pic.style.zIndex = -1;
     });
     this.pics[this.displayPic].style.display = "inline";
   }
+
   showPic(i) {
     const pic = this.pics[this.displayPic];
 
@@ -40,18 +41,17 @@ let carousel = document.querySelector(".carousel");
 new Carousel(carousel);
 
 function animateRight(pic, nextPic) {
-  TweenMax.set(pic, { left: "500px", right: "" }, 0);
-  TweenMax.set(nextPic, { display: "inline", right: "1450px", left: "" }, 0);
+  TweenMax.set(nextPic, { display: "inline", right: "", left: "" }, 0);
 
   TweenMax.to(pic, 0.5, {
-    left: 1450,
+    left: 1200,
     ease: Linear.easeNone,
     onComplete: function() {
       TweenMax.set(pic, { display: "none", left: "" });
     }
   });
-  TweenMax.to(nextPic, 0.5, {
-    right: 500,
+  TweenMax.from(nextPic, 0.5, {
+    right: 1200,
     ease: Linear.easeNone,
     onComplete: function() {
       TweenMax.set(nextPic, { right: "" });
@@ -59,18 +59,17 @@ function animateRight(pic, nextPic) {
   });
 }
 function animateLeft(pic, nextPic) {
-  TweenMax.set(pic, { right: "500px" }, 0);
-  TweenMax.set(nextPic, { display: "inline", left: "1450px" }, 0);
+  TweenMax.set(nextPic, { display: "inline", right: "", left: "" }, 0);
 
   TweenMax.to(pic, 0.5, {
-    right: 1450,
+    right: 1200,
     ease: Linear.easeNone,
     onComplete: function() {
       TweenMax.set(pic, { display: "none", right: "" });
     }
   });
-  TweenMax.to(nextPic, 0.5, {
-    left: 500,
+  TweenMax.from(nextPic, 0.5, {
+    left: 1200,
     ease: Linear.easeNone,
     onComplete: function() {
       TweenMax.set(nextPic, { left: "" });
